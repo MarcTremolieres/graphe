@@ -3,7 +3,7 @@ from math import inf
 from tabulate import tabulate
 
 class Graphe:
-    def __init__(self, liste_sommets, liste_aretes):
+    def __init__(self, liste_sommets=[], liste_aretes=[]):
         self.sommets = liste_sommets
         self.aretes = []
         for arete in liste_aretes:
@@ -87,8 +87,10 @@ class Graphe:
             graphe_affichage.edge(str(arete[0]), str(arete[1]))
         graphe_affichage.render(view=True)
 
+    
+
 class Graphe_pondere:
-    def __init__(self, liste_sommets, liste_aretes):
+    def __init__(self, liste_sommets = [], liste_aretes = []):
         self.sommets = liste_sommets
         self.aretes = []
         for arete in liste_aretes:
@@ -145,20 +147,21 @@ class Graphe_pondere:
         return dico
 
     def initialise_matrice(self):
+        from math import inf
         nb_sommets = len(self.sommets)
         matrice = []
         for _ in range(nb_sommets):
             ligne = []
             for _ in range(nb_sommets):
-                ligne.append(0)
+                ligne.append(inf)
             matrice.append(ligne)
         return matrice
 
     def matrice_adjacence(self):
         matrice = self.initialise_matrice()
         for arete in self.aretes:
-            matrice[arete[0]][arete[1]] = 1
-            matrice[arete[1]][arete[0]] = 1
+            matrice[arete[0]][arete[1]] = arete[2]
+            matrice[arete[1]][arete[0]] = arete[2]
         return matrice
 
     def affiche_matrice(self):
@@ -185,7 +188,6 @@ class Graphe_pondere:
                     clef_min = clef
             return clef_min
 
-        visites = []
         distances = {}
         distances_minimales = {}
         for sommet in self.sommets:
@@ -193,47 +195,17 @@ class Graphe_pondere:
         distances[sommet_depart] = 0
         while len(distances) != 0:
             sommet_choisi = minimum(distances)
-            print("dico : ", distances, "minimum : ", sommet_choisi)
-            visites.append(sommet_choisi)
             for voisin in self.voisins(sommet_choisi):
                 sommet = voisin[0]
                 distance = voisin[1]
-                if sommet not in visites:
+                if sommet not in distances_minimales.keys():
                     if distances[sommet_choisi] + distance < distances[sommet]:
                         distances[sommet] = distances[sommet_choisi] + distance
             distances_minimales[sommet_choisi] = distances[sommet_choisi]
             distances.pop(sommet_choisi)
+        return distances_minimales
 
-    def dijkstra_mael(self, chosen_sommet):
-        def dicomin(dico: dict):
-            if len(dico) == 0:
-                return None
-            mini = inf
-            for clef in dico.keys():
-                if dico[clef] <= mini:
-                    mini = dico[clef]
-                    clef_min = clef
-            return clef_min
-
-        visites = []
-        distances = {}
-        distances_min = {}
-        for sommet in self.sommets:
-            distances[sommet] = inf
-        distances[chosen_sommet] = 0
-        while distances != {}:
-            current_sommet = dicomin(distances)
-            visites.append(current_sommet)
-            for voisin in self.voisins(current_sommet):
-                if voisin[0] not in visites:
-                    sommet = voisin[0]
-                    distance = voisin[1]
-                    print(sommet, distances)
-                    if distances[current_sommet] + distance < distances[sommet]:
-                        distances[sommet] = (distances[current_sommet] + distance)
-            distances_min[current_sommet] = distances[current_sommet]
-            distances.pop(current_sommet)
-        return distances_min
+    
 
 
     def dijkstra_chemin(self, sommet_depart) -> dict:
@@ -247,7 +219,6 @@ class Graphe_pondere:
                     clef_min = clef
             return clef_min
 
-        visites = []
         distances = {}
         distances_minimales = {}
         for sommet in self.sommets:
@@ -255,11 +226,10 @@ class Graphe_pondere:
         distances[sommet_depart] = (0, [sommet_depart])
         while len(distances) != 0:
             sommet_choisi = minimum(distances)
-            visites.append(sommet_choisi)
             for voisin in self.voisins(sommet_choisi):
                 sommet = voisin[0]
                 distance = voisin[1]
-                if sommet not in visites:
+                if sommet not in distances_minimales.keys():
                     if distances[sommet_choisi][0] + distance < distances[sommet][0]:
                         distances[sommet] = (distances[sommet_choisi][0] + distance, distances[sommet_choisi][1] + [sommet])
             distances_minimales[sommet_choisi] = distances[sommet_choisi]
@@ -293,7 +263,7 @@ class Graphe_pondere:
         print(tabulate(matrice, en_tete))
 
 class GrapheOriente:
-    def __init__(self, liste_sommets, liste_aretes):
+    def __init__(self, liste_sommets=[], liste_aretes=[]):
         self.sommets = liste_sommets
         self.aretes = []
         for arete in liste_aretes:
@@ -584,6 +554,5 @@ class Graphe_pondere_oriente:
 
 
 if __name__ == "__main__":
-    graphe = Graphe([1,2,0], [[1,2], [2, 0], [0,1]])
-    print(graphe.dico_adjacence())
-    graphe.affiche_matrice()
+    graphe = GrapheOriente([], [['a', 'b'], ['b', 'c'], ['c', 'd'], ['d', 'e'], [ 'a', 'd']])
+    graphe.affiche()
