@@ -15,18 +15,22 @@ def euler(graphe):
         return []
     workgraph = deepcopy(graphe)
     parcours = [depart]
-    voisins = graphe.voisins(depart)
+    voisins = workgraph.voisins(depart)
     while len(voisins) != 0:
         parcours.append(voisins[0])
-        graphe.supprime_arete([depart, voisins[0]])
+        workgraph.supprime_arete([depart, voisins[0]])
         depart = voisins[0]
-        voisins = graphe.voisins(voisins[0])
+        voisins = workgraph.voisins(voisins[0])
     return parcours
 
 graphe = Graphe([], [['a', 'b'], ['b', 'c'], ['c', 'd'], ['d', 'e'], [ 'a', 'd']])
 graphe.affiche()
 parcours = euler(graphe)
 print(parcours)
+graphe.supprime_sommet('d')
+graphe.affiche_aretes()
+graphe.affiche()
+
 
 
 
