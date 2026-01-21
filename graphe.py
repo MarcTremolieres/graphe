@@ -32,11 +32,9 @@ class Graphe:
     def supprime_sommet(self, sommet):
         if sommet in self.sommets:
             self.sommets.remove(sommet)
-        new_aretes = []
-        for arete in self.aretes:
-            if (arete[0] != sommet) and (arete[1] != sommet):
-                new_aretes.append(arete)
-        self.aretes = new_aretes
+            for arete in self.aretes:
+                if (arete[0] == sommet) or (arete[1] == sommet):
+                    self.aretes.remove(arete)
 
     def affiche_aretes(self):
         print(self.aretes)
