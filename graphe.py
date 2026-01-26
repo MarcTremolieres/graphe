@@ -1,6 +1,7 @@
 from graphviz import Graph, Digraph
 from math import inf
 from tabulate import tabulate
+from file import File
 
 class Graphe:
     def __init__(self, liste_sommets=[], liste_aretes=[]):
@@ -10,7 +11,7 @@ class Graphe:
             self.ajoute_arete(arete)
 
     def ajoute_sommet(self, sommet):
-        self.sommets .append(sommet)
+        self.sommets.append(sommet)
 
     def ajoute_arete(self, arete):
         self.aretes.append(arete)
@@ -30,11 +31,13 @@ class Graphe:
             self.aretes.remove([extremite, origine])
 
     def supprime_sommet(self, sommet):
+        nouvelles_aretes = []
         if sommet in self.sommets:
             self.sommets.remove(sommet)
             for arete in self.aretes:
-                if (arete[0] == sommet) or (arete[1] == sommet):
-                    self.aretes.remove(arete)
+                if (arete[0] != sommet) and (arete[1] != sommet):
+                    nouvelles_aretes.append(arete)
+            self.aretes = nouvelles_aretes
 
     def affiche_aretes(self):
         print(self.aretes)
@@ -89,6 +92,19 @@ class Graphe:
             graphe_affichage.edge(str(arete[0]), str(arete[1]))
         graphe_affichage.render(view=True)
 
+    def largeur(self, sommet):
+        parcours = []
+        file = File()
+        file.entrer(sommet)
+        while not file.vide():
+            s = file.sortir()
+            if s not in parcours:
+                parcours.append(s)
+                for v in self.voisins(s):
+                    if v not in parcours:
+                        file.entrer(v)
+        return parcours
+        
     
 
 class Graphe_pondere:

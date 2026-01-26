@@ -17,19 +17,23 @@ def euler(graphe):
     parcours = [depart]
     voisins = workgraph.voisins(depart)
     while len(voisins) != 0:
-        parcours.append(voisins[0])
-        workgraph.supprime_arete([depart, voisins[0]])
-        depart = voisins[0]
-        voisins = workgraph.voisins(voisins[0])
+        for v in voisins:
+            workgraph.supprime_arete([depart, v])
+            if len(workgraph.largeur(v)) == len(workgraph.sommets) or v == voisins[-1]:
+                break
+            else:
+                workgraph.ajoute_arete([depart, v])
+        parcours.append(v)
+        depart = v
+        voisins = workgraph.voisins(v)
     return parcours
 
 graphe = Graphe([], [['a', 'b'], ['b', 'c'], ['c', 'd'], ['d', 'e'], [ 'a', 'd']])
+graphe = Graphe([], [[0, 1], [0, 2], [1, 2], [1, 3], [1, 4], [2, 4], [2, 5], [3, 4], [4, 5]])
 graphe.affiche()
 parcours = euler(graphe)
 print(parcours)
-graphe.supprime_sommet('d')
-graphe.affiche_aretes()
-graphe.affiche()
+print(graphe.largeur(0))
 
 
 
