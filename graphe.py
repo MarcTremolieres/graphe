@@ -573,4 +573,10 @@ class Graphe_pondere_oriente:
 
 if __name__ == "__main__":
     graphe = GrapheOriente([], [['a', 'b'], ['b', 'c'], ['c', 'd'], ['d', 'e'], [ 'a', 'd']])
+    graphe = Graphe([], [['a', 'b'], ['b', 'c'], ['c', 'd'], ['d', 'e'], [ 'a', 'd'], ['d', 'f'], ['e', 'f']])
+    graphe = Graphe([], [['a', 'b'], ['b', 'c'], ['b', 'd'], ['b', 'e'], ['c', 'e'], [ 'd', 'e'], ['e', 'f']])
+    graphe = Graphe(['a'], [['b', 'c'], ['b', 'd'], ['b', 'e'], ['c', 'e'], [ 'd', 'e'], ['e', 'f']])
+    graphe = Graphe([], [['a', 'b'], ['b', 'c'], ['b', 'd'], ['c', 'e'], [ 'd', 'e'], ['e', 'f']])
+
     graphe.affiche()
+

@@ -28,12 +28,14 @@ def euler(graphe):
         voisins = workgraph.voisins(v)
     return parcours
 
+#graphe = Graphe([], [[0, 1], [0, 2], [1, 2], [1, 3], [1, 4], [2, 4], [2, 5], [3, 4], [4, 5]])
 graphe = Graphe([], [['a', 'b'], ['b', 'c'], ['c', 'd'], ['d', 'e'], [ 'a', 'd']])
-graphe = Graphe([], [[0, 1], [0, 2], [1, 2], [1, 3], [1, 4], [2, 4], [2, 5], [3, 4], [4, 5]])
+graphe = Graphe([], [['a', 'b'], ['b', 'c'], ['c', 'e'], ['d', 'e'], [ 'e', 'f'], ['b', 'e'], ['b', 'd']])
+
+
 graphe.affiche()
 parcours = euler(graphe)
 print(parcours)
-print(graphe.largeur(0))
 
 
 
